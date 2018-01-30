@@ -29,9 +29,33 @@ def index(request):
 class BookListView(generic.ListView):
 
     model = Book
+    paginate_by = 10
+
     # your own name for the list as a template variable
-    context_object_name = 'my_book_list'
-    # Get 5 books containing the title 'life'
-    queryset = Book.objects.filter(title__icontains='Life'[:5])
+    context_object_name = 'book_list'
+    # # Get 5 books containing the title 'life'
+    # queryset = Book.objects.filter(title__icontains='Life'[:5])
+    queryset = Book.objects.all()
     # Specify your own template name/location
     template_name = 'book_list.html'
+
+
+class BookDetailView(generic.DetailView):
+    
+    model = Book
+
+
+def book_detail_view(request,pk):
+    
+    try:
+        book_id=Book.objects.get(pk=pk)
+    except Book.DoesNotExist:
+        raise Http404("Book does not exist")
+
+    #book_id=get_object_or_404(Book, pk=pk)
+
+    return render(
+        request,
+        'book_detail.html',
+        context={'book':book_id,}
+    )
