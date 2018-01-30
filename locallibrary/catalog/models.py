@@ -20,7 +20,6 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genre = models.ManyToManyField(Genre, help_text="Select a genre for this book.")
 
-
     def __str__(self):
     
         return self.title
@@ -74,7 +73,7 @@ class Author(models.Model):
 
     def get_absolute_url(self):
 
-        return reverse('author-datail', args=[str(self.id)])
+        return reverse('author-detail', args=[str(self.id)])
 
     def __str__(self):
 

@@ -57,5 +57,31 @@ def book_detail_view(request,pk):
     return render(
         request,
         'book_detail.html',
-        context={'book':book_id,}
+        context={'book':book_id}
     )
+
+
+class AuthorListView(generic.ListView):
+    
+    model = Author
+    context_object_name = 'author_list'
+    queryset = Author.objects.all()
+    template_name = 'author_list.html'
+
+
+def author_detail_view(request, pk):
+
+    try:
+        author_id=Author.objects.get(pk=pk)
+        # author_books = Book.objects.filter(author=author)
+    except Author.DoesNotExist:
+        raise Http404("Author does not exist")
+
+    return render(
+        request,
+        'author_detail.html',
+        context={
+            'author': author_id,
+            # 'author_books': author_books,
+        }
+)
