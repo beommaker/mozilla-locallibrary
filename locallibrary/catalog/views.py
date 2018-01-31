@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
+# from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Book, Author, BookInstance, Genre
 
 
@@ -49,22 +51,6 @@ class BookDetailView(generic.DetailView):
     model = Book
 
 
-def book_detail_view(request,pk):
-    
-    try:
-        book_id=Book.objects.get(pk=pk)
-    except Book.DoesNotExist:
-        raise Http404("Book does not exist")
-
-    #book_id=get_object_or_404(Book, pk=pk)
-
-    return render(
-        request,
-        'book_detail.html',
-        context={'book':book_id}
-    )
-
-
 class AuthorListView(generic.ListView):
     
     model = Author
@@ -73,19 +59,6 @@ class AuthorListView(generic.ListView):
     template_name = 'author_list.html'
 
 
-def author_detail_view(request, pk):
+class AuthorDetailView(generic.DetailView):
 
-    try:
-        author_id=Author.objects.get(pk=pk)
-        # author_books = Book.objects.filter(author=author)
-    except Author.DoesNotExist:
-        raise Http404("Author does not exist")
-
-    return render(
-        request,
-        'author_detail.html',
-        context={
-            'author': author_id,
-            # 'author_books': author_books,
-        }
-)
+    model = Author
